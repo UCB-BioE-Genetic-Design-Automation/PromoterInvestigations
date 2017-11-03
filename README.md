@@ -1,0 +1,2 @@
+# PromoterInvestigations
+For a given input of [Promoter+5’UTR+Few bases after TSS], determines where consensus transcription binding sites (for TFs expressed/present in the organism) are present in the promoter and how minimally they can be knocked out in the physiological context. Identifies CRISPR-Cas9 editing strategy (sgRNAs) and outputs a semi-protocol of sorts (with primers to order and cloning strategy for repair constructs to allow various combinations of KOs to be carried out and investigated in vivo.
