@@ -1,0 +1,2 @@
+Promoter[[:space:]]+[[:space:]]5'[[:space:]]UTR.txt filter=lfs diff=lfs merge=lfs -text
+Exons[[:space:]]+[[:space:]]Introns.txt filter=lfs diff=lfs merge=lfs -text
