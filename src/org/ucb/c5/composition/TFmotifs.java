@@ -1,7 +1,6 @@
 package org.ucb.c5.composition;
 
 import javafx.util.Pair;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +21,27 @@ import java.util.regex.*;
  * Cell. 2014 Sep 11;158(6):1431-43. doi: 10.1016/j.cell.2014.08.009.
  * PMID: 25215497
  * URL: http://cisbp.ccbr.utoronto.ca/index.php
+ *
+ *
+ * The algorithm below derives one transcription factor binding motif from each position
+ * weight matrix based on a threshold of a nucleotide being present at a frequency
+ * greater than 0.5 but better models of these motifs can be established using the following:
+ *
+ * "Predicting transcription factor binding motifs from DNA-binding domains, chromatin
+ * accessibility and gene expression data"
+ * Zamanighomi M, Lin Z, Wang Y, Jiang R, and Wong WH.
+ * Nucleic Acids Res. 2017 Jun 2; 45(10): 5666–5677. doi: 10.1093/nar/gkx358
+ * PMCID: PMC5449588
+ * URL: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5449588/
+ *
+ * "Evaluation of methods for modeling transcription factor sequence specificity"
+ * Matthew T Weirauch, Atina Cote, Raquel Norel, Matti Annala, Yue Zhao, Todd R Riley,
+ * Julio Saez-Rodriguez, Thomas Cokelaer, Anastasia Vedenko, Shaheynoor Talukder,
+ * DREAM5 Consortium, Harmen J Bussemaker, Quaid D Morris, Martha L Bulyk, Gustavo
+ * Stolovitzky & Timothy R Hughes
+ * Nature Biotechnology 31, 126–134 (2013). doi:10.1038/nbt.2486
+ * URL: https://www.nature.com/articles/nbt.2486
+ *
  *
  * Initiation of org.ucb.c5.composition.TFmotifs parses the data from CIS-BP database
  * Running of org.ucb.c5.composition.TFmotifs identifies TF binding sites in the input
@@ -132,13 +152,20 @@ public class TFmotifs {
             Pattern pattern = Pattern.compile(consensusSequence);
             Matcher matcher = pattern.matcher(promoterAndFivePrimeUTR);
             ArrayList<Integer> matchStartIndices = new ArrayList<>();
+            // The number at the first index of matchStartIndices corresponds to the length of the consensusSequence
+            matchStartIndices.add(consensusSequence.length());
             while (matcher.find()) {
                 int indexOfMatch = matcher.start();
                 matchStartIndices.add(indexOfMatch);
-                System.out.println(tfNames.get(Motif_ID) + " | " + indexOfMatch);
             }
-            Pair<String, ArrayList<Integer>> matches = new Pair<>(Motif_ID, matchStartIndices);
-            TFmotifsInSequence.add(matches);
+            // For motifs that matched and added indices to matchStartIndices, add to TFmotifsInSequence
+            if (matchStartIndices.size() > 1) {
+                Pair<String, ArrayList<Integer>> matches = new Pair<>(Motif_ID, matchStartIndices);
+                TFmotifsInSequence.add(matches);
+            }
+        }
+        for (Pair<String, ArrayList<Integer>> TFmotifs : TFmotifsInSequence) {
+            System.out.println(TFmotifs.getKey() + " | " + consensusSequences.get(TFmotifs.getKey()) + " | " + tfNames.get(TFmotifs.getKey()) + " | " + dbIDs.get(TFmotifs.getKey()) + " | " + TFmotifs.getValue());
         }
         return TFmotifsInSequence;
     }
