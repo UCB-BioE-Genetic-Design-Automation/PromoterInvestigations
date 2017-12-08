@@ -76,7 +76,7 @@ public class InvestigatePromoter {
         pw.println();
         pw.println("Similarly for each TF motif identified below, use the sgRNA_UP and sgRNA_DOWN in the cloning protocol of px330 constructs.");
         pw.println("The cloning protocol of px330 constructs is adapted from Zhang Lab protocols for CRISPR/Cas9 systems in mammalian cells.");
-        pw.println("Detailed protocol available in this package as a PDF title Cas9ConstructProtocol.pdf");
+        pw.println("Detailed protocol available in this package as a PDF titled Cas9ConstructProtocol.pdf");
         pw.println();
         pw.println("------------------------------");
         pw.println();
@@ -85,17 +85,22 @@ public class InvestigatePromoter {
         pw.println("Count\tMotif_ID\tsgRNA_UP\tsgRNA_DOWN\tForward_Overlap_Primer\tReverse_Overlap_Primer\tLocation\tConsensus_Sequence\tTF_Name\tTF_Family");
         int i = 0;
         for (Pair<String, ArrayList<String>> alteration : alterationOligos) {
-            pw.print(i + "\t");
-
             String appendedMotif_ID = alteration.getKey();
             ArrayList<String> oligos = alteration.getValue();
+
+            // Obtain the sgRNA oligos
+            ArrayList<String> sgRNAoligos = hashMapOfsgRNAs.get(appendedMotif_ID);
+            if (sgRNAoligos == null) {
+                continue;
+            }
+
+            pw.print(i + "\t");
 
             // Obtain and print the Motif_ID
             String Motif_ID = appendedMotif_ID.substring(0, 10);
             pw.print(Motif_ID + "\t");
 
-            // Obtain and print the up sgRNA oligos
-            ArrayList<String> sgRNAoligos = hashMapOfsgRNAs.get(appendedMotif_ID);
+            // Print the up sgRNA oligos
             String sgRNA_UP = sgRNAoligos.get(0);
             pw.print(sgRNA_UP + "\t");
             String sgRNA_DOWN = sgRNAoligos.get(1);

@@ -85,7 +85,7 @@ public class RepairConstructStrategy {
                 count += 1;
             }
         }
-        if (count != 2) {
+        if (restrictionEndonucleaseSite1 == null || restrictionEndonucleaseSite2 == null) {
             throw new Exception("Could not devise a cloning strategy for this gene locus because pCR2.1-TOPO MCS does not contain unique sites for this locus!");
         }
         // Obtain the names of the restriction endonculeases corresponding to these sites that are not present in the given gene locus
