@@ -66,7 +66,7 @@ public class InvestigatePromoter {
         pw.println();
         pw.println("In order to investigate transcription factors in the promoter and 5' UTR of " + geneName + ", use the following two primers to amplify the genomic locus:");
         pw.println();
-        pw.println(repairStrategy.get(2) + " and " + repairStrategy.get(3));
+        pw.println("Forward_Repair_Primer: " + repairStrategy.get(2) + " and Reverse_Repair_Primer: " + repairStrategy.get(3));
         pw.println("The expected size of the amplicon is " + repairStrategy.get(4));
         pw.println("Digest the pCR2.1-TOPO backbone and the amplicon with " + repairStrategy.get(0) + " and " + repairStrategy.get(1) + ", ligate and transform to obtain the repair construct.");
         pw.println();
