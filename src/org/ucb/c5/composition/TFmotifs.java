@@ -52,9 +52,8 @@ import java.util.regex.*;
 
 public class TFmotifs {
 
-    private HashMap<String, String> tfIDs;
     private HashMap<String, String> tfNames;
-    private HashMap<String, String> dbIDs;
+    private HashMap<String, String> tfFamilyNames;
     private HashMap<String, String> consensusSequences;
 
     public void initiate() throws Exception {
@@ -68,15 +67,13 @@ public class TFmotifs {
         //    V: Corresponding TF_ID, TF_Name and DBID
         String TF_information = FileUtils.readResourceFile("Homo Sapiens TF Motifs from CIS-BP Database/TF_Information_all_motifs_plus.txt");
         String[] rows = TF_information.split("\\r|\\r?\\n");
-        tfIDs = new HashMap<>();
         tfNames = new HashMap<>();
-        dbIDs = new HashMap<>();
+        tfFamilyNames = new HashMap<>();
         for (int i = 0; i < rows.length; i++) {
             String row = rows[i];
             String[] columns = row.split("\t");
-            tfIDs.put(columns[3], columns[0]);
-            tfNames.put(columns[3], columns[9]);
-            dbIDs.put(columns[3], columns[13]);
+            tfNames.put(columns[3], columns[6]);
+            tfFamilyNames.put(columns[3], columns[9]);
         }
 
         // Read the PositionWeightMatrices (PWMs) files, each file is named by its Motif_ID.
@@ -144,7 +141,7 @@ public class TFmotifs {
         }
     }
 
-    public ArrayList<Pair<String, ArrayList<Integer>>> run(String promoterAndFivePrimeUTR) throws Exception {
+    public ArrayList<ArrayList> run(String promoterAndFivePrimeUTR) throws Exception {
         ArrayList<Pair<String, ArrayList<Integer>>> TFmotifsInSequence = new ArrayList<>();
         for (HashMap.Entry<String, String> entry : consensusSequences.entrySet()) {
             String Motif_ID = entry.getKey();
@@ -164,16 +161,20 @@ public class TFmotifs {
                 TFmotifsInSequence.add(matches);
             }
         }
-        for (Pair<String, ArrayList<Integer>> TFmotifs : TFmotifsInSequence) {
-            System.out.println(TFmotifs.getKey() + " | " + consensusSequences.get(TFmotifs.getKey()) + " | " + tfNames.get(TFmotifs.getKey()) + " | " + dbIDs.get(TFmotifs.getKey()) + " | " + TFmotifs.getValue());
-        }
-        return TFmotifsInSequence;
+
+        // Create an array list of HashMaps that can be returned and thereby passed on to the main algorithm
+        ArrayList<HashMap> hashMaps = new ArrayList<>();
+        hashMaps.add(tfNames);
+        hashMaps.add(tfFamilyNames);
+        hashMaps.add(consensusSequences);
+
+        ArrayList<ArrayList> toReturn = new ArrayList<>(2);
+        toReturn.add(0, TFmotifsInSequence);
+        toReturn.add(1, hashMaps);
+
+        return toReturn;
     }
 
     public static void main(String[] args) throws Exception {
-        TFmotifs tfm = new TFmotifs();
-        tfm.initiate();
-        // TERT's upstream genomic locus
-        ArrayList<Pair<String, ArrayList<Integer>>> TFmotifsInTERT = tfm.run("AGTGGCCGTGTGGCTTCTACTGCTGGGCTGGAAGTCGGGCCTCCTAGCTCTGCAGTCCGAGGCTTGGAGCCAGGTGCCTGGACCCCGAGGTTGCCCTCCACCCTGTGCGGGCGGGATGTGACCAGATGTTGGCCTCATCTGCCAGACAGAGTGCCGGGGCCCAGGGTCAAGGCCGTTGTGGCTGGTGTGAGGCGCCCGGTGCGCGGCCAGCAGGAGCGCCTGGCTCCATTTCCCACCCTTTCTCGACGGGACCGCCCCGGTGGGTGATTAACAGATTTGGGGTGGTTTGCTCATGGTGGGGACCCCTCGCCGCCTGAGAACCTGCAAAGAGAAATGACGGGCCTGTGTCAAGGAGCCCAAGTCGCGGGGAAGTGTTGCAGGGAGGCACTCCGGGAGGTCCCGCGTGCCCGTCCAGGGAGCAATGCGTCCTCGGGTTCGTCCCCAGCCGCGTCTACGCGCCTCCGTCCTCCCCTTCACGTCCGGCATTCGTGGTGCCCGGAGCCCGACGCCCCGCGTCCGGACCTGGAGGCAGCCCTGGGTCTCCGGATCAGGCCAGCGGCCAAAGGGTCGCCGCACGCACCTGTTCCCAGGGCCTCCACATCATGGCCCCTCCCTCGGGTTACCCCACAGCCTAGGCCGATTCGACCTCTCTCCGCTGGGGCCCTCGCTGGCGTCCCTGCACCCTGGGAGCGCGAGCGGCGCGCGGGCGGGGAAGCGCGGCCCAGACCCCCGGGTCCGCCCGGAGCAGCTGCGCTGTCGGGGCCAGGCCGGGCTCCCAGTGGATTCGCGGGCACAGACGCCCAGGACCGCGCTTCCCACGTGGCGGAGGGACTGGGGACCCGGGCACCCGTCCTGCCCCTTCACCTTCCAGCTCCGCCTCCTCCGCGCGGACCCCGCCCCGTCCCGACCCCTCCCGGGTCCCCGGCCCAGCCCCCTCCGGGCCCTCCCAGCCCCTCCCCTTCCTTTCCGCGGCCCCGCCCTCTCCTCGCGGCGCGAGTTTCAGGCAGCGCTGCGTCCTGCTGCGCACGTGGGAAGCCCTGGCCCCGGCCACCCCCGCG");
     }
 }
