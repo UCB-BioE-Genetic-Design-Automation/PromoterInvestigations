@@ -1,7 +1,6 @@
 package org.ucb.c5.composition;
 
 import javafx.util.Pair;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
