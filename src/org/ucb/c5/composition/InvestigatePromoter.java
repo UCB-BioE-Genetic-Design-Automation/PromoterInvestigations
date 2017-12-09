@@ -72,7 +72,7 @@ public class InvestigatePromoter {
         pw.println();
         pw.println("------------------------------");
         pw.println();
-        pw.println("Using this repair construct... For each of the TF motifs identified below, use the Forward_Overlap_Primer and Reverse_Overlap_Primer in an overlab-extension strategy (see outline in README) to devise unique constructs that remove the TF motif.");
+        pw.println("Using this repair construct... For each of the TF motifs identified below, use the Forward_Overlap_Primer and Reverse_Overlap_Primer in an overlap-extension strategy (see outline in README) to devise unique constructs that remove the TF motif.");
         pw.println();
         pw.println("Similarly for each TF motif identified below, use the sgRNA_UP and sgRNA_DOWN in the cloning protocol of px330 constructs.");
         pw.println("The cloning protocol of px330 constructs is adapted from Zhang Lab protocols for CRISPR/Cas9 systems in mammalian cells.");

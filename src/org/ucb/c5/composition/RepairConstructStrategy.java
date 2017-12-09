@@ -47,7 +47,7 @@ public class RepairConstructStrategy {
         RestrictionEndonucleaseSites.add("GAGCTC");
         RestrictionEndonucleases.put("GAGCTC", "SacI");
         RestrictionEndonucleaseSites.add("ACTAGT");
-        RestrictionEndonucleases.put("ACTAGC", "SpeI");
+        RestrictionEndonucleases.put("ACTAGT", "SpeI");
         RestrictionEndonucleaseSites.add("CTTAAG");
         RestrictionEndonucleases.put("CTTAAG", "AflII");
         RestrictionEndonucleaseSites.add("GCGGCCGC");
