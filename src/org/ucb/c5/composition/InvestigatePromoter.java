@@ -148,12 +148,13 @@ public class InvestigatePromoter {
         Scanner scanner = new Scanner(System.in);
         InvestigatePromoter ip = new InvestigatePromoter();
         ip.initiate();
-        for (int i = 0; i < 10; i++) {
+        System.out.println("Enter the path of the desired directory for output files: ");
+        String directory = scanner.next();
+        for (int i = 0; i < 20000; i++) {
             System.out.print("Enter gene name (must have an NCBI gene ID): ");
             String geneName = scanner.next();
-            System.out.println("Enter the path of the desired output directory: ");
-            String directory = scanner.next();
             ip.run(geneName, directory);
+            System.out.println("Output file for " + geneName + " created successfully.");
         }
     }
 }
