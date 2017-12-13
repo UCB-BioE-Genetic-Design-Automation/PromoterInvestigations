@@ -67,7 +67,5 @@ public class DownstreamGenomicLocus {
     }
 
     public static void main(String[] args) throws Exception {
-        DownstreamGenomicLocus dgl = new DownstreamGenomicLocus();
-        dgl.initiate();
     }
 }

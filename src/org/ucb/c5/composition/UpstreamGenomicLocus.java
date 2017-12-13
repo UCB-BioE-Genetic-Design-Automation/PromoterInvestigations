@@ -74,9 +74,5 @@ public class UpstreamGenomicLocus {
     }
 
     public static void main(String[] args) throws Exception {
-        UpstreamGenomicLocus ugl = new UpstreamGenomicLocus();
-        ugl.initiate();
-        ArrayList<String> TERTugl = ugl.run("TERT");
-        System.out.println(TERTugl.get(1));
     }
 }
